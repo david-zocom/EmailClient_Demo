@@ -12,6 +12,6 @@ namespace EmailClient
         string Name { get; set; }
 
 
-        void SendEmail(string to, string header, string body);
+        void TryToSendEmail(string to, string header, string body);
     }
 }

@@ -14,7 +14,7 @@ namespace EmailClient
 
         public IEmailService EmailService { get; set; }
 
-        public void SendEmail(string to, string header, string body)
+        public void TryToSendEmail(string to, string header, string body)
         {
             // "David" <david@mail.com>
             if (string.IsNullOrEmpty(to) || string.IsNullOrEmpty(header)

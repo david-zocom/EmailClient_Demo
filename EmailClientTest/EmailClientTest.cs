@@ -17,7 +17,7 @@ namespace EmailClientTest
             string to = "destination", header = "Great opportunity",
                 body = "I am the Nigerian finance minister";
             MyEmailClient ec = new MyEmailClient();
-            Assert.Throws<NullReferenceException>(() => ec.SendEmail(to,
+            Assert.Throws<NullReferenceException>(() => ec.TryToSendEmail(to,
                  header, body));
         }
 
@@ -30,12 +30,14 @@ namespace EmailClientTest
             //ec.EmailService = new FakeEmailService();
             var mock = new Mock<IEmailService>();
 
-            Assert.Throws<Exception>(() => ec.SendEmail(null,
-                header, body));
-            Assert.Throws<Exception>(() => ec.SendEmail(to,
-                null, body));
-            Assert.Throws<Exception>(() => ec.SendEmail(to,
-                header, null));
+            Assert.Throws<Exception>(() => ec.TryToSendEmail(
+                null, header, body));
+            Assert.Throws<Exception>(() => ec.TryToSendEmail(
+                to, null, body));
+            Assert.Throws<Exception>(() => ec.TryToSendEmail(
+                to, header, null));
+            /*Assert.Throws<Exception>(() => ec.TryToSendEmail(
+                to, null, null));  <- onödig */
             // TODO: test empty strings as well
         }
         /*public int add(int x, int y)
@@ -56,7 +58,7 @@ namespace EmailClientTest
             ec.EmailService = mock.Object;
             //FakeEmailService fake = new FakeEmailService();
             //ec.EmailService = fake;
-            ec.SendEmail(to, header, body);
+            ec.TryToSendEmail(to, header, body);
             string from = ec.Name + " <" + ec.Email + ">";
             mock.Verify(x => x.SendEmail(to, from, 
                 header, body),
