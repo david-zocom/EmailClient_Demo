@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailClient.cs" />
     <Compile Include="IEmailClient.cs" />
     <Compile Include="IEmailService.cs" />
     <Compile Include="Program.cs" />

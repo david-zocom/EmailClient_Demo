@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace EmailClient
 {
-    interface IEmailClient
+    public interface IEmailClient
     {
-        void Setup(string myEmail, string myName);
+        string Email { get; set; }
+        string Name { get; set; }
+
 
         void SendEmail(string to, string header, string body);
     }
