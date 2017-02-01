@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using EmailClient;
+using Moq;
 
 namespace EmailClientTest
 {
@@ -26,7 +27,8 @@ namespace EmailClientTest
             string to = "destination", header = "Great opportunity",
                 body = "I am the Nigerian finance minister";
             MyEmailClient ec = new MyEmailClient();
-            ec.EmailService = new FakeEmailService();
+            //ec.EmailService = new FakeEmailService();
+            var mock = new Mock<IEmailService>();
 
             Assert.Throws<Exception>(() => ec.SendEmail(null,
                 header, body));
@@ -48,14 +50,22 @@ namespace EmailClientTest
             string to = "destination", header = "Great opportunity",
                 body = "I am the Nigerian finance minister";
             MyEmailClient ec = new MyEmailClient();
-            FakeEmailService fake = new FakeEmailService();
-            ec.EmailService = fake;
+            ec.Name = "Antonio";
+            ec.Email = "email@emial.com";
+            var mock = new Mock<IEmailService>();
+            ec.EmailService = mock.Object;
+            //FakeEmailService fake = new FakeEmailService();
+            //ec.EmailService = fake;
             ec.SendEmail(to, header, body);
-            Assert.Equal(1, fake.HowManyTimesHasSendEmailBeenCalled);
+            string from = ec.Name + " <" + ec.Email + ">";
+            mock.Verify(x => x.SendEmail(to, from, 
+                header, body),
+                Times.Once());
+           // Assert.Equal(1, fake.HowManyTimesHasSendEmailBeenCalled);
         }
 
     }
-    class FakeEmailService : IEmailService
+    /*class FakeEmailService : IEmailService
     {
         public int HowManyTimesHasSendEmailBeenCalled { get; set; } = 0;
 
@@ -64,6 +74,6 @@ namespace EmailClientTest
             HowManyTimesHasSendEmailBeenCalled++;
             //throw new NotImplementedException();
         }
-    }
+    }*/
 }
 
